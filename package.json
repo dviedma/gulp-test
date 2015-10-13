@@ -1,0 +1,26 @@
+{
+  "name": "gulp-project",
+  "version": "0.0.0",
+  "description": "test gulp and potential template for react, etc",
+  "main": "script.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "hola"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:dviedma/gulp-test.git"
+  },
+  "keywords": [
+    "gulp",
+    "tst"
+  ],
+  "author": "daniel viedma",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dviedma/gulp-test/issues"
+  },
+  "homepage": "https://github.com/dviedma/gulp-test"
+}
