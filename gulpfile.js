@@ -1,7 +1,6 @@
 var gulp = require('gulp');
 var sass = require('gulp-sass');
 var browserSync = require('browser-sync');
-var useref = require('gulp-useref');
 var uglify = require('gulp-uglify');
 var minifyCSS = require('gulp-minify-css');
 var gulpIf = require('gulp-if');
@@ -9,6 +8,11 @@ var imagemin = require('gulp-imagemin');
 var cache = require('gulp-cache');
 var del = require('del');
 var runSequence = require('run-sequence');
+var browserify = require('browserify');
+var watchify = require('watchify');
+//var sourcemaps = require('gulp-sourcemaps');
+var source = require('vinyl-source-stream');
+var buffer = require('vinyl-buffer');
 
 
 // sass task
@@ -30,17 +34,18 @@ gulp.task('browserSync', function() {
   })
 });
 
-//html partials
-gulp.task('useref', function(){
-  var assets = useref.assets();
+//minify CSS
+gulp.task('minifyCSS', function(){
+  return gulp.src('app/css/*.css')
+    .pipe(minifyCSS())
+    .pipe(gulp.dest('dist/css'));
+});
 
-  return gulp.src('app/*.html')
-      .pipe(assets)
-      .pipe(gulpIf('*.css', minifyCSS()))
-      .pipe(gulpIf('*.js', uglify()))
-      .pipe(assets.restore())
-      .pipe(useref())
-      .pipe(gulp.dest('dist'))
+//uglify JS
+gulp.task('uglifyJS', function(){
+  return gulp.src('app/js/*.js')
+    .pipe(uglify())
+    .pipe(gulp.dest('dist/js'));
 });
 
 //img min
@@ -61,16 +66,28 @@ gulp.task('clean', function() {
   return del('dist');
 })
 
+//browserify
+gulp.task('browserify', function() {
+    return browserify('app/js/app.js').bundle()
+        .pipe(source('app.browserified.js'))
+        .pipe(buffer())
+        .pipe(gulp.dest('app/js'));
+});
 
 
 // SERVER
-gulp.task('server', ['browserSync', 'sass'], function (){
+var jsFiles = ['app/js/**/*.js', '!app/js/app.browserified.js'];
+gulp.task('server', ['browserSync', 'browserify', 'sass'], function (){
   gulp.watch('app/scss/**/*.scss', ['sass']);
   gulp.watch('app/*.html', browserSync.reload);
-  gulp.watch('app/js/**/*.js', browserSync.reload);
+  gulp.watch(jsFiles, ['browserify']);
+  gulp.watch('app/js/app.browserified.js', browserSync.reload);
 });
 
 //BUILD
 gulp.task('build', function() {
-  runSequence('clean', ['sass', 'useref', 'images', 'fonts']);
+  runSequence('clean', ['browserify', 'sass', 'minifyCSS', 'uglifyJS', 'images', 'fonts']);
 });
+
+//gulp.task('build', ['browserify', 'compass', 'images']);
+//gulp.task('default', ['build', 'watch', 'serve', 'open']);
