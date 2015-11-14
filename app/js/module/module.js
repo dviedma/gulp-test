@@ -1,8 +1,7 @@
 
 'use strict';
 
-//var template = require('./module.html');
-var template = "<h1>Hello Module 2</h1>";
+var template = require('./module.hbs');
 var Backbone    = require('backbone');
 
 module.exports = Backbone.View.extend({
@@ -17,7 +16,7 @@ module.exports = Backbone.View.extend({
 
     render: function() {
 
-        this.$el.html(template);
+        this.$el.html(template({name: 'Justin Graber 2'}));
 
         return this;
     }

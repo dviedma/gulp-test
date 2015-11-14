@@ -13,6 +13,7 @@ var watchify = require('watchify');
 //var sourcemaps = require('gulp-sourcemaps');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
+var hbsfy = require('hbsfy');
 
 
 // sass task
@@ -68,7 +69,7 @@ gulp.task('clean', function() {
 
 //browserify
 gulp.task('browserify', function() {
-    return browserify('app/js/app.js').bundle()
+    return browserify('app/js/app.js').transform(hbsfy).bundle()
         .pipe(source('app.browserified.js'))
         .pipe(buffer())
         .pipe(gulp.dest('app/js'));
