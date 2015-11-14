@@ -4,12 +4,36 @@ console.log("hi app 6.js");
 var Router = require('./router');
 new Router();
 
-},{"./router":2}],2:[function(require,module,exports){
+},{"./router":3}],2:[function(require,module,exports){
+
+'use strict';
+
+//var template = require('./module.html');
+var template = "<h1>Hello Module</h1>";
+var Backbone    = require('backbone');
+
+module.exports = Backbone.View.extend({
+
+    className: 'module',
+
+    events: {},
+
+    initialize: function(options) {
+
+    },
+
+    render: function() {
+        this.$el.html(template());
+
+        return this;
+    }
+});
+},{"backbone":4}],3:[function(require,module,exports){
 console.log("hi router.js");
 
 var Backbone    = require('backbone');
-//var HomeView    = require('./views/home.view');
-//var $           = require("jquery");
+var ModuleView  = require('./module/module');
+var $           = require("jquery");
 
 var Router = Backbone.Router.extend({
     routes: {
@@ -21,15 +45,16 @@ var Router = Backbone.Router.extend({
     },
 
     default: function() {
-        //var view = new HomeView();
-        //$("#application-context").html(view.$el)
-        console.log("load default route!");
+        console.log("loading default route");
+
+        var view = new ModuleView();
+        $("#example").html(view.$el)
     }
 });
 
 module.exports = Router;
 
-},{"backbone":3}],3:[function(require,module,exports){
+},{"./module/module":2,"backbone":4,"jquery":5}],4:[function(require,module,exports){
 (function (global){
 //     Backbone.js 1.2.3
 
@@ -1927,7 +1952,7 @@ module.exports = Router;
 }));
 
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"jquery":4,"underscore":5}],4:[function(require,module,exports){
+},{"jquery":5,"underscore":6}],5:[function(require,module,exports){
 /*!
  * jQuery JavaScript Library v2.1.4
  * http://jquery.com/
@@ -11139,7 +11164,7 @@ return jQuery;
 
 }));
 
-},{}],5:[function(require,module,exports){
+},{}],6:[function(require,module,exports){
 //     Underscore.js 1.8.3
 //     http://underscorejs.org
 //     (c) 2009-2015 Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors

@@ -1,8 +1,8 @@
 console.log("hi router.js");
 
 var Backbone    = require('backbone');
-//var HomeView    = require('./views/home.view');
-//var $           = require("jquery");
+var ModuleView  = require('./module/module');
+var $           = require("jquery");
 
 var Router = Backbone.Router.extend({
     routes: {
@@ -14,9 +14,10 @@ var Router = Backbone.Router.extend({
     },
 
     default: function() {
-        //var view = new HomeView();
-        //$("#application-context").html(view.$el)
-        console.log("load default route!");
+        console.log("loading default route");
+
+        var view = new ModuleView();
+        $("#example").html(view.$el)
     }
 });
 
