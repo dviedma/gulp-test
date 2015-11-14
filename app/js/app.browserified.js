@@ -9,12 +9,12 @@ new Router();
 'use strict';
 
 //var template = require('./module.html');
-var template = "<h1>Hello Module</h1>";
+var template = "<h1>Hello Module 2</h1>";
 var Backbone    = require('backbone');
 
 module.exports = Backbone.View.extend({
 
-    className: 'module',
+    el: '#example',
 
     events: {},
 
@@ -23,7 +23,8 @@ module.exports = Backbone.View.extend({
     },
 
     render: function() {
-        this.$el.html(template());
+
+        this.$el.html(template);
 
         return this;
     }
@@ -48,7 +49,7 @@ var Router = Backbone.Router.extend({
         console.log("loading default route");
 
         var view = new ModuleView();
-        $("#example").html(view.$el)
+        view.render();
     }
 });
 

@@ -17,7 +17,7 @@ var Router = Backbone.Router.extend({
         console.log("loading default route");
 
         var view = new ModuleView();
-        $("#example").html(view.$el)
+        view.render();
     }
 });
 
